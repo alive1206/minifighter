@@ -16,7 +16,7 @@ export const Trailer = () => {
         loop
         src={TRAILER}
       />
-      <div className="absolute bottom-[25%] ml-8 w-[50%] max-lg:bottom-[10%]">
+      <div className="absolute bottom-[25%] ml-8 w-[40%] max-lg:bottom-[10%]">
         <p className="text-white text-4xl h-full font-bold drop-shadow-xl mb-2  ">
           Mini Fighter
         </p>
@@ -26,10 +26,10 @@ export const Trailer = () => {
           traditional fighting games, and card games.
         </p>
         <button
-          className="bg-white rounded-md py-2 px-4 flex justify-center gap-1 transition-all animate-bounce hover:bg-orange-500"
+          className="bg-white text-black rounded-md py-2 px-4 flex justify-center gap-1 transition-all animate-bounce hover:bg-orange-500 items-center"
           onClick={() => router.push("/download")}
         >
-          <Play fill="black" />
+          <Play width={16} height={16} fill="black" />
           Play
         </button>
       </div>

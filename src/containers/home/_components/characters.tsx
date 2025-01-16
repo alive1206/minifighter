@@ -59,8 +59,6 @@ export const Characters = () => {
           </div>
         </div>
       </div>
-
-      <img src="/test/bonny.png" />
     </div>
   );
 };

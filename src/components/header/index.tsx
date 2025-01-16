@@ -17,7 +17,7 @@ export const Header = () => {
   const [showBackground, setShowBackground] = useState<boolean>(false);
   const pathname = usePathname();
   const linkClassName =
-    "rounded-lg p-2 text-white text-[12px] flex items-center transition-all hover:text-orange-500 dark:hover:bg-[#1E293B]";
+    "rounded-lg p-2 text-white text-[12px] flex items-center transition-all hover:text-orange-500 ";
   const logoClassName = "mr-1 text-[12px]";
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export const Header = () => {
           <li>
             <Link
               className={`${linkClassName} ${
-                pathname === "/" && "!text-orange-500 dark:bg-[#1E293B]"
+                pathname === "/" && "!text-orange-500 "
               }`}
               href="/"
               title="Home Page"
@@ -58,7 +58,7 @@ export const Header = () => {
           <li>
             <Link
               className={`${linkClassName} ${
-                pathname === "/news" && "!text-orange-500 dark:bg-[#1E293B]"
+                pathname === "/news" && "!text-orange-500 "
               }`}
               href="/news"
               title="News Page"
@@ -70,7 +70,7 @@ export const Header = () => {
           <li>
             <Link
               className={`${linkClassName} ${
-                pathname === "/ranking" && "!text-orange-500 dark:bg-[#1E293B]"
+                pathname === "/ranking" && "!text-orange-500 "
               }`}
               href="/ranking"
               title="Ranking Page"
@@ -82,7 +82,7 @@ export const Header = () => {
           <li>
             <Link
               className={`${linkClassName} ${
-                pathname === "/download" && "!text-orange-500 dark:bg-[#1E293B]"
+                pathname === "/download" && "!text-orange-500 "
               }`}
               href="/download"
               title="Download Page"
@@ -94,7 +94,7 @@ export const Header = () => {
           <li>
             <Link
               className={`${linkClassName} ${
-                pathname === "/shop" && "!text-orange-500 dark:bg-[#1E293B]"
+                pathname === "/shop" && "!text-orange-500 "
               }`}
               href="/shop"
               title="Shop Page"
