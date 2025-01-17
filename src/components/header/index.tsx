@@ -22,7 +22,7 @@ export const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      window.scrollY >= TOP_OFFSET
+      typeof window !== "undefined" && window.scrollY >= TOP_OFFSET
         ? setShowBackground(true)
         : setShowBackground(false);
     };

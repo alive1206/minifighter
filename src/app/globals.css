@@ -18,7 +18,36 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ---------------------------------------------- */
+/* Custom hero sheet */
+
 .hero:hover {
   flex: 2;
   filter: grayscale(0);
+}
+
+/* ---------------------------------------------- */
+/* Custom antd */
+.ant-select-selector {
+  background: #18181b !important;
+}
+
+.ant-select-selection-item {
+  color: white !important;
+}
+
+.ant-select-arrow {
+  color: white !important;
+}
+
+.ant-select-dropdown {
+  background: #18181b !important;
+}
+
+.ant-select-item {
+  color: white !important;
+}
+
+.ant-select-item-option-selected {
+  background: #f97316 !important;
 }

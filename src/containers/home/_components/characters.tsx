@@ -1,8 +1,14 @@
+"use client";
+
 import { HEROES_FURY, HEROES_NORMAL, HEROES_POWER } from "@/utils";
 import { CharacterSheet } from "./character-sheet";
 import { map } from "lodash";
+import { Select } from "antd";
+import { useAtom } from "jotai";
+import { selectedFormState } from "@/jotai";
 
 export const Characters = () => {
+  const [formSelected, setFormSelected] = useAtom(selectedFormState);
   return (
     <div className="mt-6">
       <h3
@@ -16,46 +22,30 @@ export const Characters = () => {
       <div>
         <h4 className="text-white uppercase font-bold text-lg mb-2">
           <span className="border-l-[3px] border-orange-500 pl-1">
-            Normal Characters
+            <Select
+              className="md:w-1/4 w-full !text-center !bg-[#1E293D] !text-white"
+              value={formSelected}
+              onChange={setFormSelected}
+              options={[
+                { value: "normal", label: "NORMAL CHARACTERS" },
+                { value: "power", label: "POWER CHARACTERS" },
+                { value: "fury", label: "FURY CHARACTERS" },
+              ]}
+            />
           </span>
         </h4>
         <div className="flex justify-center ">
           <div className=" w-3/4 flex max-lg:grid max-lg:grid-cols-8 max-lg:w-full">
-            {map(HEROES_NORMAL, (hero) => (
-              <CharacterSheet hero={hero} key={hero.id} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Power Character */}
-      <div>
-        <h4 className="text-white uppercase font-bold text-lg mb-2">
-          <span className="border-l-[3px] border-orange-500 pl-1">
-            Power Characters
-          </span>
-        </h4>
-        <div className="flex justify-center ">
-          <div className=" w-3/4 flex max-lg:grid max-lg:grid-cols-8 max-lg:w-full">
-            {map(HEROES_POWER, (hero) => (
-              <CharacterSheet hero={hero} key={hero.id} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Fury Character */}
-      <div>
-        <h4 className="text-white uppercase font-bold text-lg mb-2">
-          <span className="border-l-[3px] border-orange-500 pl-1">
-            Fury Characters
-          </span>
-        </h4>
-        <div className="flex justify-center ">
-          <div className=" w-3/4 flex max-lg:grid max-lg:grid-cols-8 max-lg:w-full">
-            {map(HEROES_FURY, (hero) => (
-              <CharacterSheet hero={hero} key={hero.id} />
-            ))}
+            {map(
+              formSelected === "normal"
+                ? HEROES_NORMAL
+                : formSelected === "power"
+                ? HEROES_POWER
+                : HEROES_FURY,
+              (hero) => (
+                <CharacterSheet hero={hero} key={hero.id} />
+              )
+            )}
           </div>
         </div>
       </div>
