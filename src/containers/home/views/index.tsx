@@ -1,15 +1,14 @@
 import { MainLayout } from "@/layouts";
-import { Trailer } from "../_components/trailer";
-import { Characters } from "../_components/characters";
-import { News } from "../_components/news";
+import { Trailer, Characters, News, Features } from "../_components";
 
 export const HomeViews = () => {
   return (
     <MainLayout>
-      <div className="flex-1  bg-zinc-900 overflow-x-hidden">
+      <div className="bg-zinc-900 overflow-hidden pb-16">
         <Trailer />
-        <div className="relative z-1 px-4 h-full">
+        <div className="relative z-1 px-4 h-full max-md:top-[72px]">
           <News />
+          <Features />
           <Characters />
         </div>
       </div>

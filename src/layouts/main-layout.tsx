@@ -8,7 +8,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
   return (
     <div className="h-screen bg-zinc-900 bg-opacity-90">
       <Header />
-      <div className="h-full w-full relative">{children}</div>
+      <div className="h-full w-full relative ">{children}</div>
     </div>
   );
 };

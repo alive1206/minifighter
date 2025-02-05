@@ -3,6 +3,14 @@ export const LOGO_HEADER = "/assets/logo-header.png";
 export const TRAILER = "/videos/trailer-2.mp4";
 
 //----------------------------------------------------------------------------------
+//Features
+export const FEATURE1 = "/assets/features/feature-1.jpg";
+export const FEATURE2 = "/assets/features/feature-2.jpg";
+export const FEATURE3 = "/assets/features/feature-3.jpg";
+export const FEATURE4 = "/assets/features/feature-4.jpg";
+export const FEATURE5 = "/assets/features/feature-5.jpg";
+
+//----------------------------------------------------------------------------------
 //Heroes
 
 //Normal
