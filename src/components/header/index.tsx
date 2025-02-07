@@ -13,9 +13,14 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TOP_OFFSET } from "@/utils";
+import { useCurrentUser, useLogout } from "@/hooks";
+import { App, Avatar, Dropdown } from "antd";
 
 export const Header = () => {
   const [showBackground, setShowBackground] = useState<boolean>(false);
+  const { onLogout } = useLogout();
+  const { message } = App.useApp();
+  const user = useCurrentUser();
   const pathname = usePathname();
   const linkClassName =
     " p-2 text-white text-[12px] flex items-center transition-all hover:text-orange-500 ";
@@ -84,8 +89,45 @@ export const Header = () => {
           ))}
         </ul>
         <div className="flex gap-3 items-center">
-          <div className="rounded-[50%] flex justify-center items-center p-2 cursor-pointer hover:text-orange-500">
-            <User />
+          <div className="text-white rounded-[50%] flex justify-center items-center p-2 cursor-pointer hover:text-orange-500">
+            {user ? (
+              <>
+                <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        key: "1",
+                        label: (
+                          <span className="capitalize font-bold">
+                            {user.name || "Unamed"}
+                          </span>
+                        ),
+                        disabled: true,
+                      },
+                      {
+                        key: "2",
+                        label: "Sign out",
+                        onClick: () => {
+                          onLogout();
+                          message.success("Logout successfully!");
+                        },
+                      },
+                    ],
+                  }}
+                >
+                  <Avatar
+                    src={
+                      user?.image ||
+                      "https://cdn.gamemeca.com/gmdb/g000/20/56/223303.jpg"
+                    }
+                  />
+                </Dropdown>
+              </>
+            ) : (
+              <Link href="/auth/login">
+                <User />
+              </Link>
+            )}
           </div>
         </div>
       </div>

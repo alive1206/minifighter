@@ -23,7 +23,7 @@ export const Characters = () => {
         <h4 className="text-white uppercase font-bold text-lg mb-2 text-center">
           <span className=" border-orange-500 pl-1">
             <Select
-              className="md:w-1/4 w-full rounded-lg !text-center !bg-[#1E293D] !text-white hover:!border-orange-500 mb-2"
+              className="custom-select md:w-1/4 w-full rounded-lg !text-center !bg-[#1E293D] !text-white hover:!border-orange-500 mb-2"
               value={formSelected}
               onChange={setFormSelected}
               options={[

@@ -1,3 +1,5 @@
+"use client";
+
 import { MainLayout } from "@/layouts";
 import { Trailer, Characters, News, Features } from "../_components";
 

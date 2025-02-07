@@ -5,6 +5,8 @@ import {
   FEATURE3,
   FEATURE4,
   FEATURE5,
+  FEATURE6,
+  FEATURE7,
 } from "@public/index";
 import { useMemo } from "react";
 
@@ -16,6 +18,8 @@ export const Features = () => {
       { key: "3", url: FEATURE3 },
       { key: "4", url: FEATURE4 },
       { key: "5", url: FEATURE5 },
+      { key: "6", url: FEATURE6 },
+      { key: "7", url: FEATURE7 },
     ],
     []
   );

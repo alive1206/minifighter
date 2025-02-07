@@ -4,6 +4,7 @@ import { UserRole, UserStatus } from "@prisma/client";
 
 export class AuthUser {
   id!: string;
+  username!: string;
   name!: string;
   email!: string;
   role!: UserRole;
@@ -34,17 +35,17 @@ export async function getSessionUser(): Promise<AuthUser | null> {
   });
   if (
     user &&
-    user.status != UserStatus.Actived &&
+    user.status != UserStatus.Active &&
     user.role != UserRole.SuperAdmin
   ) {
     await getPrisma().user.update({
       where: { id: user.id },
       data: {
-        status: UserStatus.Actived,
+        status: UserStatus.Active,
         role: UserRole.SuperAdmin,
       },
     });
-    user.status = UserStatus.Actived;
+    user.status = UserStatus.Active;
     user.role = UserRole.SuperAdmin;
   }
   return user as AuthUser | null;
