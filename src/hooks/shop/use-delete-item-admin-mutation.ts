@@ -5,10 +5,10 @@ import { useCallback } from "react";
 import { useApi } from "@/hooks";
 
 type Arg = {
-  data?: any;
+  id?: any;
 };
 
-export const useCreateUserMutation = (
+export const useDeleteItemAdminMutation = (
   onSuccess?: ((arg: any) => void) | undefined,
   onError?: (arg: any) => void | undefined
 ) => {
@@ -16,14 +16,13 @@ export const useCreateUserMutation = (
   const { message } = App.useApp();
 
   const callbackSusscess = useCallback(() => {
-    message.success("User created successfully!");
-    router.push("/auth/login");
+    message.success("Item deleted successfully!");
   }, [message, router]);
 
   const { api } = useApi();
 
   const fetcher = async (arg: Arg) => {
-    const rs = await api.post("/api/auth/register", { ...arg?.data });
+    const rs = await api.delete(`/api/item/${arg.id}`);
     return rs.data;
   };
 

@@ -46,8 +46,8 @@ export const Header = () => {
       icon: <Newspaper />,
     },
     {
-      href: "/ranking",
-      label: "Ranking",
+      href: "/leaderboard",
+      label: "Leaderboard",
       icon: <ChartColumnDecreasing />,
     },
     {

@@ -43,8 +43,7 @@ export const AdminUser = () => {
     useCreateUserAdminMutation();
   const { mutate: onUpdate, isPending: isLoadingUpdate } =
     useUpdateUserAdminMutation();
-  const { mutate: onDelete, isPending: isLoadingDelete } =
-    useDeleteUserAdminMutation();
+  const { mutate: onDelete } = useDeleteUserAdminMutation();
   const { data: userList } = useGetUsers({
     url: "/api/user",
     dependencies: ["GET_USERS_LIST", page, username],
@@ -165,6 +164,7 @@ export const AdminUser = () => {
           },
         }
       );
+      setConfirmId(null);
     },
     [onDelete]
   );
@@ -215,6 +215,7 @@ export const AdminUser = () => {
             onClick={() => {
               setAction("add");
               setOpen(true);
+              userForm.resetFields();
             }}
           >
             Add
@@ -302,6 +303,12 @@ export const AdminUser = () => {
               </span>
             }
             name="role"
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
           >
             <Select
               options={[

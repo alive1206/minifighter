@@ -5,10 +5,11 @@ import { useCallback } from "react";
 import { useApi } from "@/hooks";
 
 type Arg = {
+  id?: any;
   data?: any;
 };
 
-export const useCreateUserMutation = (
+export const useUpdateItemAdminMutation = (
   onSuccess?: ((arg: any) => void) | undefined,
   onError?: (arg: any) => void | undefined
 ) => {
@@ -16,14 +17,13 @@ export const useCreateUserMutation = (
   const { message } = App.useApp();
 
   const callbackSusscess = useCallback(() => {
-    message.success("User created successfully!");
-    router.push("/auth/login");
+    message.success("Item updated successfully!");
   }, [message, router]);
 
   const { api } = useApi();
 
   const fetcher = async (arg: Arg) => {
-    const rs = await api.post("/api/auth/register", { ...arg?.data });
+    const rs = await api.put(`/api/item/${arg.id}`, { ...arg?.data });
     return rs.data;
   };
 

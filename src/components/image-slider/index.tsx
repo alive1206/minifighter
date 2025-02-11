@@ -48,7 +48,7 @@ export const ImageSlider: React.FC<Props> = ({ items }) => {
         handleScrollTo(nextIndex);
         return nextIndex;
       });
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [activeIndex, items.length]);
