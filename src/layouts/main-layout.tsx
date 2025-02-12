@@ -6,7 +6,7 @@ type Props = {
 
 export const MainLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="h-screen bg-zinc-900 bg-opacity-90">
+    <div className="h-screen bg-zinc-900">
       <Header />
       <div className="h-full w-full relative ">{children}</div>
     </div>

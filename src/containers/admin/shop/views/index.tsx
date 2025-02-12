@@ -3,7 +3,6 @@
 import { AdminLayout } from "@/layouts";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  App,
   Button,
   Col,
   Drawer,
@@ -17,7 +16,6 @@ import {
 } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Scrollbars } from "react-custom-scrollbars-2";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { UploadCustom } from "@/components";
 import {
@@ -28,6 +26,7 @@ import {
 } from "@/hooks";
 import { useAtom } from "jotai";
 import { imageState } from "@/jotai";
+import { formatCurrency } from "@/utils";
 
 export const AdminShop = () => {
   const [form] = useForm();
@@ -55,7 +54,7 @@ export const AdminShop = () => {
       ...(name && { name }),
     },
   });
-  console.log(itemList);
+
   const columns = useMemo(
     () => [
       {
@@ -74,10 +73,7 @@ export const AdminShop = () => {
         key: "price",
         dataIndex: "price",
         render: (text: any) => {
-          const currency = text
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          return <>{currency} VNĐ</>;
+          return <>{formatCurrency(text)} VND</>;
         },
       },
       {
@@ -88,7 +84,6 @@ export const AdminShop = () => {
             <Button
               onClick={() => {
                 setAction("edit");
-
                 setOpen(true);
                 itemForm.setFieldsValue(record);
                 setImageSrc(record.image);
@@ -120,8 +115,7 @@ export const AdminShop = () => {
       const data = {
         name: values?.name,
         price: values?.price,
-        image:
-          "https://res.cloudinary.com/db7lrh5mn/image/upload/v1739270519/minifighter/upload/ohzuztomkccoxmtrew7i.png",
+        image: values?.image,
       };
       onCreate(
         { data },
@@ -183,82 +177,80 @@ export const AdminShop = () => {
 
   return (
     <AdminLayout>
-      <Scrollbars autoHide>
-        <div className="w-full flex justify-between">
-          <Form
-            layout="vertical"
-            form={form}
-            onFinish={(values) => {
-              const query = {
-                ...(values.name && { name: values.name }),
-              };
-              const params = new URLSearchParams({
-                ...query,
-                page: 1,
-              });
+      <div className="w-full flex justify-between">
+        <Form
+          layout="vertical"
+          form={form}
+          onFinish={(values) => {
+            const query = {
+              ...(values.name && { name: values.name }),
+            };
+            const params = new URLSearchParams({
+              ...query,
+              page: 1,
+            });
 
-              router.push(`${pathname}?${params.toString()}`);
-            }}
-            className="w-2/3"
-          >
-            <Row gutter={[8, 16]} className="mb-2">
-              <Col span={24} lg={6}>
-                <Form.Item name="name" className="mb-0">
-                  <Input placeholder="Search by item name" allowClear />
-                </Form.Item>
-              </Col>
-              <Col span={24} lg={6}>
-                <Space>
-                  <Button
-                    onClick={() => {
-                      form.resetFields();
-                      router.push(pathname as string);
-                    }}
-                  >
-                    Clear
-                  </Button>
-                  <Button htmlType="submit">Search</Button>
-                </Space>
-              </Col>
-            </Row>
-          </Form>
-          <Button
-            className="mb-2"
-            onClick={() => {
-              setAction("add");
-              setOpen(true);
-              itemForm.resetFields();
-              setImageSrc("");
-            }}
-          >
-            Add
-          </Button>
-        </div>
-        <Table
-          dataSource={itemList?.data}
-          columns={columns}
-          rowKey="id"
-          scroll={{
-            x: "auto",
+            router.push(`${pathname}?${params.toString()}`);
           }}
-          pagination={{
-            current: Number(page) || 1,
-            pageSize: 10,
-            total: itemList?.pagination?.totalPages,
-            showSizeChanger: false,
-            onChange: (page) => {
-              const query = {
-                ...(name && { name: name }),
-              };
-              const params = new URLSearchParams({
-                ...query,
-                page: String(page),
-              });
-              router.push(`${pathname}?${params.toString()}`);
-            },
+          className="w-2/3"
+        >
+          <Row gutter={[8, 16]} className="mb-2">
+            <Col span={24} lg={6}>
+              <Form.Item name="name" className="mb-0">
+                <Input placeholder="Search by item name" allowClear />
+              </Form.Item>
+            </Col>
+            <Col span={24} lg={6}>
+              <Space>
+                <Button
+                  onClick={() => {
+                    form.resetFields();
+                    router.push(pathname as string);
+                  }}
+                >
+                  Clear
+                </Button>
+                <Button htmlType="submit">Search</Button>
+              </Space>
+            </Col>
+          </Row>
+        </Form>
+        <Button
+          className="mb-2"
+          onClick={() => {
+            setAction("add");
+            setOpen(true);
+            itemForm.resetFields();
+            setImageSrc("");
           }}
-        ></Table>
-      </Scrollbars>
+        >
+          Add
+        </Button>
+      </div>
+      <Table
+        dataSource={itemList?.data}
+        columns={columns}
+        rowKey="id"
+        scroll={{
+          x: "auto",
+        }}
+        pagination={{
+          current: Number(page) || 1,
+          pageSize: 10,
+          total: itemList?.pagination?.totalPages,
+          showSizeChanger: false,
+          onChange: (page) => {
+            const query = {
+              ...(name && { name: name }),
+            };
+            const params = new URLSearchParams({
+              ...query,
+              page: String(page),
+            });
+            router.push(`${pathname}?${params.toString()}`);
+          },
+        }}
+      ></Table>
 
       <Drawer
         title={action === "add" ? "Add new item" : "Update item"}
@@ -305,11 +297,9 @@ export const AdminShop = () => {
           >
             <InputNumber
               className="w-full"
-              addonAfter="VNĐ"
+              addonAfter="VND"
               formatter={(value) =>
-                value !== undefined
-                  ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  : ""
+                value !== undefined ? formatCurrency(value) : ""
               }
               parser={(value) => Number(value?.replace(/,/g, ""))}
             />

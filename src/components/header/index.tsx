@@ -2,7 +2,7 @@
 
 import { LOGO_HEADER } from "@public/index";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ChartColumnDecreasing,
   Download,
@@ -20,6 +20,7 @@ export const Header = () => {
   const [showBackground, setShowBackground] = useState<boolean>(false);
   const { onLogout } = useLogout();
   const { message } = App.useApp();
+  const router = useRouter();
   const user = useCurrentUser();
   const pathname = usePathname();
   const linkClassName =
@@ -98,14 +99,25 @@ export const Header = () => {
                       {
                         key: "1",
                         label: (
-                          <span className="capitalize font-bold">
-                            {user.name || "Unamed"}
+                          <span className="capitalize font-bold flex justify-center">
+                            {user.name || (
+                              <span className="text-red-500">unamed</span>
+                            )}
                           </span>
                         ),
                         disabled: true,
                       },
+                      user.role !== "User"
+                        ? {
+                            key: "2",
+                            label: "Admin panel",
+                            onClick: () => {
+                              router.push("/admin");
+                            },
+                          }
+                        : null,
                       {
-                        key: "2",
+                        key: "3",
                         label: "Sign out",
                         onClick: () => {
                           onLogout();

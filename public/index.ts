@@ -1,4 +1,5 @@
 export const LOGO_HEADER = "/assets/logo-header.png";
+export const COMING_SOON = "/assets/coming-soon.png";
 
 export const TRAILER = "/videos/trailer-2.mp4";
 

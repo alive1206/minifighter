@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   AreaChartOutlined,
   BookOutlined,
@@ -13,6 +13,9 @@ import { App, Avatar, Button, Dropdown, Layout, Menu, theme } from "antd";
 import { LOGO_HEADER } from "@public/index";
 import { usePathname, useRouter } from "next/navigation";
 import { useCurrentUser, useLogout } from "@/hooks";
+import { useAtom } from "jotai";
+import { collapsedState } from "@/jotai";
+import Link from "next/link";
 
 type Props = {
   children: React.ReactNode;
@@ -25,7 +28,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
   const { message } = App.useApp();
   const user = useCurrentUser();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useAtom(collapsedState);
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -65,14 +68,16 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
   };
 
   return (
-    <Layout className="h-screen">
+    <Layout className="h-screen overflow-hidden">
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
         className="bg-zinc-900"
       >
-        <img className="w-40 h-30 mx-auto py-3" src={LOGO_HEADER} />
+        <Link href="/" className="cursor-pointer">
+          <img className="w-40 h-30 mx-auto py-3" src={LOGO_HEADER} />
+        </Link>
         <Menu
           className="bg-zinc-900"
           mode="inline"
@@ -123,8 +128,10 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
                       {
                         key: "1",
                         label: (
-                          <span className="capitalize font-bold">
-                            {user.name || "Unamed"}
+                          <span className="capitalize font-bold flex justify-center">
+                            {user.name || (
+                              <span className="text-red-500">unamed</span>
+                            )}
                           </span>
                         ),
                         disabled: true,
@@ -155,9 +162,9 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
           style={{
             margin: "24px 16px",
             padding: 24,
-            minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
+            overflowY: "auto",
           }}
         >
           {children}

@@ -2,26 +2,50 @@
 
 import { imageState } from "@/jotai";
 import { DeleteOutlined, InboxOutlined, PlusOutlined } from "@ant-design/icons";
-
-import { App, Button, Image, Modal } from "antd";
+import { App, Button, Image, Modal, Popconfirm } from "antd";
 import Dragger from "antd/es/upload/Dragger";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { CloudUpload, LibraryBig } from "lucide-react";
 import { useState } from "react";
-import { useUploadFileMutation } from "@/hooks";
+import {
+  useDeleteCloudinaryAssetMutation,
+  useFetchCloudinaryAssets,
+  useUploadFileMutation,
+} from "@/hooks";
+import { map } from "lodash";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const UploadCustom = () => {
   const [open, setOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [action, setAction] = useState("");
   const [previewImage, setPreviewImage] = useState("");
+  const [imgSrcSelected, setImgSrcSelected] = useState("");
+  const [publicId, setPublicId] = useState("");
   const [imageSrc, setImageSrc] = useAtom(imageState);
   const [file, setFile] = useState();
   const { message } = App.useApp();
+
+  const queryClient = useQueryClient();
 
   const { mutate: onUpload, isPending: isLoadingUpload } =
     useUploadFileMutation((rs) => {
       setImageSrc(rs.secure_url || previewImage);
     });
+
+  const { mutate: onDelete, isPending: isDeleteLoading } =
+    useDeleteCloudinaryAssetMutation();
+
+  const {
+    data: assetsList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useFetchCloudinaryAssets({
+    url: "/api/cloudinary-assets",
+    dependencies: ["GET_CLOUDINARY_ASSETS"],
+  });
 
   const handleFileChange = (e: any) => {
     const fileSelected = e.originFileObj;
@@ -42,7 +66,6 @@ export const UploadCustom = () => {
     onUpload({ data: { file } });
 
     setPreviewImage("");
-    setAction("");
     setOpen(false);
   };
 
@@ -76,32 +99,87 @@ export const UploadCustom = () => {
         </Button>
       )}
       <Modal
+        width={550}
         open={open}
         closable={false}
         centered
         onCancel={() => setOpen(false)}
         footer={
-          action !== ""
-            ? [
-                <Button
-                  type="default"
-                  onClick={() => {
-                    setAction("");
-                    setPreviewImage("");
-                  }}
-                >
-                  Back
-                </Button>,
-                <Button
-                  type="primary"
-                  onClick={handleUploadClick}
-                  loading={isLoadingUpload}
-                  disabled={isLoadingUpload}
-                >
-                  Upload
-                </Button>,
-              ]
-            : []
+          (action === "upload" && [
+            <Button
+              type="default"
+              onClick={() => {
+                setAction("");
+                setPreviewImage("");
+              }}
+            >
+              Back
+            </Button>,
+            <Button
+              type="primary"
+              onClick={handleUploadClick}
+              loading={isLoadingUpload}
+              disabled={isLoadingUpload}
+            >
+              Upload
+            </Button>,
+          ]) ||
+          (action === "media" && [
+            <Button
+              type="default"
+              onClick={() => {
+                setAction("");
+                setImgSrcSelected("");
+                setPublicId("");
+              }}
+            >
+              Back
+            </Button>,
+            <Popconfirm
+              title="Are you sure to delete this asset?"
+              open={confirmOpen}
+              onConfirm={() =>
+                onDelete(
+                  { id: publicId },
+                  {
+                    onSuccess: () => {
+                      setConfirmOpen(false);
+                      setImgSrcSelected("");
+                      setPublicId("");
+                      queryClient.invalidateQueries({
+                        queryKey: ["GET_CLOUDINARY_ASSETS"],
+                      });
+                    },
+                  }
+                )
+              }
+              onCancel={() => setConfirmOpen(false)}
+            >
+              <Button
+                danger
+                onClick={() => {
+                  publicId !== ""
+                    ? setConfirmOpen(true)
+                    : message.warning("Please select asset first!");
+                }}
+                loading={isDeleteLoading}
+                disabled={isDeleteLoading}
+              >
+                Delete
+              </Button>
+            </Popconfirm>,
+            <Button
+              type="primary"
+              onClick={() => {
+                setImageSrc(imgSrcSelected);
+                setImgSrcSelected("");
+                setPublicId("");
+                setOpen(false);
+              }}
+            >
+              Select
+            </Button>,
+          ])
         }
       >
         {action === "" && (
@@ -120,7 +198,7 @@ export const UploadCustom = () => {
             </Button>
           </div>
         )}
-        {action === "upload" ? (
+        {action === "upload" && (
           <>
             {previewImage === "" ? (
               <Dragger
@@ -158,8 +236,51 @@ export const UploadCustom = () => {
               </div>
             )}
           </>
-        ) : (
-          <></>
+        )}
+        {action === "media" && (
+          <>
+            {isLoading ? (
+              <>Loading...</>
+            ) : (
+              <>
+                <div className="grid grid-cols-3 gap-2 overflow-x-hidden overflow-y-auto max-h-[300px] w-full">
+                  {map(assetsList?.pages, (page) => (
+                    <>
+                      {map(page?.resources, (asset) => (
+                        <div
+                          key={asset?.asset_id}
+                          className={`relative w-[150px] h-[150px] group overflow-hidden border rounded-lg cursor-pointer ${
+                            imgSrcSelected === asset?.secure_url &&
+                            "border-orange-500"
+                          }`}
+                          onClick={() => {
+                            setImgSrcSelected(asset?.secure_url);
+                            setPublicId(asset?.public_id);
+                          }}
+                        >
+                          <Image
+                            width={"100%"}
+                            height={"100%"}
+                            src={asset?.secure_url}
+                            preview={false}
+                            className="cursor-pointer p-2"
+                          />
+                          <div className="opacity-0 h-[calc(100%-16px)] w-[calc(100%-16px)] inset-2 group-hover:opacity-100 absolute bg-[#00000073] top-2 z-10 backdrop-blur-0 duration-200 "></div>
+                        </div>
+                      ))}
+                    </>
+                  ))}
+                </div>
+                <div className="flex justify-center mt-4">
+                  {hasNextPage && (
+                    <Button onClick={() => fetchNextPage()}>
+                      {isFetchingNextPage ? "Loading..." : "Load More"}
+                    </Button>
+                  )}
+                </div>
+              </>
+            )}
+          </>
         )}
       </Modal>
     </>

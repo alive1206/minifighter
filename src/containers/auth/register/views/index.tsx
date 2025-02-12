@@ -1,17 +1,31 @@
 "use client";
 
-import { useCreateUserMutation } from "@/hooks";
+import { useCreateUserMutation, useCurrentUser } from "@/hooks";
 import { MainLayout } from "@/layouts";
-import { Button, Form, FormInstance, Input } from "antd";
-
+import { css } from "@emotion/css";
+import { Button, Form, Input, Space, Spin } from "antd";
 import Link from "next/link";
-import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 export const RegisterForm = () => {
   const [form] = Form.useForm();
-
+  const router = useRouter();
+  const user = useCurrentUser();
   const { mutate: onCreate, isPending: isLoadingCreate } =
     useCreateUserMutation();
+
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    } else {
+      const timeOut = setTimeout(() => setLoadingUser(false), 1000);
+
+      return () => clearTimeout(timeOut);
+    }
+  }, [user, router]);
 
   const onSubmit = useCallback(() => {
     form.submit();
@@ -23,6 +37,17 @@ export const RegisterForm = () => {
       onCreate({ data });
     });
   }, [form, onCreate]);
+
+  if (loadingUser) {
+    return (
+      <MainLayout>
+        <Space className="flex justify-center items-center h-full">
+          <Spin />
+        </Space>
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
       <div className="h-full relative">

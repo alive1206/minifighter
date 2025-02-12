@@ -24,7 +24,6 @@ import {
 } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Scrollbars } from "react-custom-scrollbars-2";
 import { useCallback, useMemo, useState } from "react";
 
 export const AdminUser = () => {
@@ -171,81 +170,79 @@ export const AdminUser = () => {
 
   return (
     <AdminLayout>
-      <Scrollbars autoHide>
-        <div className="w-full flex justify-between">
-          <Form
-            layout="vertical"
-            form={form}
-            onFinish={(values) => {
-              const query = {
-                ...(values.username && { username: values.username }),
-              };
-              const params = new URLSearchParams({
-                ...query,
-                page: 1,
-              });
+      <div className="w-full flex justify-between">
+        <Form
+          layout="vertical"
+          form={form}
+          onFinish={(values) => {
+            const query = {
+              ...(values.username && { username: values.username }),
+            };
+            const params = new URLSearchParams({
+              ...query,
+              page: 1,
+            });
 
-              router.push(`${pathname}?${params.toString()}`);
-            }}
-            className="w-2/3"
-          >
-            <Row gutter={[8, 16]} className="mb-2">
-              <Col span={24} lg={6}>
-                <Form.Item name="username" className="mb-0">
-                  <Input placeholder="Search by username" allowClear />
-                </Form.Item>
-              </Col>
-              <Col span={24} lg={6}>
-                <Space>
-                  <Button
-                    onClick={() => {
-                      form.resetFields();
-                      router.push(pathname as string);
-                    }}
-                  >
-                    Clear
-                  </Button>
-                  <Button htmlType="submit">Search</Button>
-                </Space>
-              </Col>
-            </Row>
-          </Form>
-          <Button
-            className="mb-2"
-            onClick={() => {
-              setAction("add");
-              setOpen(true);
-              userForm.resetFields();
-            }}
-          >
-            Add
-          </Button>
-        </div>
-        <Table
-          dataSource={userList?.data}
-          columns={columns}
-          rowKey="id"
-          scroll={{
-            x: "auto",
+            router.push(`${pathname}?${params.toString()}`);
           }}
-          pagination={{
-            current: Number(page) || 1,
-            pageSize: 10,
-            total: userList?.pagination?.totalPages,
-            showSizeChanger: false,
-            onChange: (page) => {
-              const query = {
-                ...(username && { username: username }),
-              };
-              const params = new URLSearchParams({
-                ...query,
-                page: String(page),
-              });
-              router.push(`${pathname}?${params.toString()}`);
-            },
+          className="w-2/3"
+        >
+          <Row gutter={[8, 16]} className="mb-2">
+            <Col span={24} lg={6}>
+              <Form.Item name="username" className="mb-0">
+                <Input placeholder="Search by username" allowClear />
+              </Form.Item>
+            </Col>
+            <Col span={24} lg={6}>
+              <Space>
+                <Button
+                  onClick={() => {
+                    form.resetFields();
+                    router.push(pathname as string);
+                  }}
+                >
+                  Clear
+                </Button>
+                <Button htmlType="submit">Search</Button>
+              </Space>
+            </Col>
+          </Row>
+        </Form>
+        <Button
+          className="mb-2"
+          onClick={() => {
+            setAction("add");
+            setOpen(true);
+            userForm.resetFields();
           }}
-        ></Table>
-      </Scrollbars>
+        >
+          Add
+        </Button>
+      </div>
+      <Table
+        dataSource={userList?.data}
+        columns={columns}
+        rowKey="id"
+        scroll={{
+          x: "auto",
+        }}
+        pagination={{
+          current: Number(page) || 1,
+          pageSize: 10,
+          total: userList?.pagination?.totalPages,
+          showSizeChanger: false,
+          onChange: (page) => {
+            const query = {
+              ...(username && { username: username }),
+            };
+            const params = new URLSearchParams({
+              ...query,
+              page: String(page),
+            });
+            router.push(`${pathname}?${params.toString()}`);
+          },
+        }}
+      ></Table>
 
       <Drawer
         title={action === "add" ? "Add new user" : "Update user"}
