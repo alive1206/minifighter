@@ -247,7 +247,7 @@ export const UploadCustom = () => {
               <>
                 <div className="grid grid-cols-3 gap-2 overflow-x-hidden overflow-y-auto max-h-[300px] w-full">
                   {map(assetsList?.pages, (page, index) => (
-                    <div key={index}>
+                    <>
                       {map(page?.resources, (asset) => (
                         <div
                           key={asset?.asset_id}
@@ -271,7 +271,7 @@ export const UploadCustom = () => {
                           <div className="opacity-0 h-[calc(100%-16px)] w-[calc(100%-16px)] inset-2 group-hover:opacity-100 absolute bg-[#00000073] top-2 z-10 backdrop-blur-0 duration-200 "></div>
                         </div>
                       ))}
-                    </div>
+                    </>
                   ))}
                 </div>
                 <div className="flex justify-center mt-4">
