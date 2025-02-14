@@ -31,19 +31,19 @@ export const PrivateRouter: React.FC<Props> = ({ children, roles }): any => {
       </div>
     );
   } else if (status === "unauthenticated") {
-    message.error("You must login to use this function!");
-    const interval = setInterval(() => {
+    message.error("You must login first!");
+    const timeout = setTimeout(() => {
       router.push("/auth/login");
     }, 1000);
-    return () => clearInterval(interval);
+    return () => clearTimeout(timeout);
   }
 
   if (noPermission) {
     message.error("You don't have permission to be here!");
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       onLogout();
     }, 1000);
-    return () => clearInterval(interval);
+    return () => clearTimeout(timeout);
   }
 
   return <>{!noPermission && children}</>;

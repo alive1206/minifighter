@@ -237,7 +237,7 @@ export const AdminShop = () => {
         pagination={{
           current: Number(page) || 1,
           pageSize: 10,
-          total: itemList?.pagination?.totalPages,
+          total: itemList?.pagination?.totalItems,
           showSizeChanger: false,
           onChange: (page) => {
             const query = {

@@ -9,4 +9,5 @@ export const env = {
     .NEXT_PUBLIC_CLOUDINARY_UPLOAD_FOLDER as string,
   CLOUDINARY_API_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY as string,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
+  TINYMCE_API_KEY: process.env.NEXT_PUBLIC_TINYMCE_API_KEY as string,
 };

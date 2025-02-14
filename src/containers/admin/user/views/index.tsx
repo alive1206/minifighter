@@ -229,7 +229,7 @@ export const AdminUser = () => {
         pagination={{
           current: Number(page) || 1,
           pageSize: 10,
-          total: userList?.pagination?.totalPages,
+          total: userList?.pagination?.totalUsers,
           showSizeChanger: false,
           onChange: (page) => {
             const query = {

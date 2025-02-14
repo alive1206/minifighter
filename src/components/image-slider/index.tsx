@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const ImageSlider: React.FC<Props> = ({ items }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState<any>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = () => {
@@ -43,7 +43,7 @@ export const ImageSlider: React.FC<Props> = ({ items }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => {
+      setActiveIndex((prevIndex: any) => {
         const nextIndex = prevIndex === items.length - 1 ? 0 : prevIndex + 1;
         handleScrollTo(nextIndex);
         return nextIndex;
