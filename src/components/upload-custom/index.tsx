@@ -246,7 +246,7 @@ export const UploadCustom = () => {
             ) : (
               <>
                 <div className="grid grid-cols-3 gap-2 overflow-x-hidden overflow-y-auto max-h-[300px] w-full">
-                  {map(assetsList?.pages, (page, index) => (
+                  {map(assetsList?.pages, (page) => (
                     <>
                       {map(page?.resources, (asset) => (
                         <div
