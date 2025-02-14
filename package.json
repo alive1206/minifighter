@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
@@ -57,6 +57,7 @@
     "@types/uuid": "^10.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "postcss": "^8",
     "sass": "^1.83.4",
     "tailwindcss": "^3.4.1",

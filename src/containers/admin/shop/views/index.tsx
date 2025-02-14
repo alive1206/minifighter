@@ -130,29 +130,26 @@ export const AdminShop = () => {
     });
   }, [itemForm, onCreate]);
 
-  const handleUpdate = useCallback(
-    (id: any) => {
-      itemForm.submit();
-      itemForm.validateFields().then(async (values) => {
-        const data = {
-          name: values?.name,
-          price: values?.price,
-          image: values?.image,
-        };
-        onUpdate(
-          { id: values?.id, data },
-          {
-            onSuccess: () => {
-              queryClient.invalidateQueries({ queryKey: ["GET_ITEMS_LIST"] });
-              setOpen(false);
-              itemForm.resetFields();
-            },
-          }
-        );
-      });
-    },
-    [itemForm, onUpdate]
-  );
+  const handleUpdate = useCallback(() => {
+    itemForm.submit();
+    itemForm.validateFields().then(async (values) => {
+      const data = {
+        name: values?.name,
+        price: values?.price,
+        image: values?.image,
+      };
+      onUpdate(
+        { id: values?.id, data },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["GET_ITEMS_LIST"] });
+            setOpen(false);
+            itemForm.resetFields();
+          },
+        }
+      );
+    });
+  }, [itemForm, onUpdate]);
 
   const handleDelete = useCallback(
     (id: any) => {

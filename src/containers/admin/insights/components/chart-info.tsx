@@ -38,10 +38,7 @@ export const ChartInfo: React.FC<Props> = ({
   showTotal = true,
   showChart = true,
   forceHideTotal = false,
-  height = 340,
   extra,
-  animVariants,
-  onAnimationComplete,
   titleClassName,
 }) => {
   const dateRange = useAtomValue(dateRangeState);

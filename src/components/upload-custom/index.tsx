@@ -79,6 +79,7 @@ export const UploadCustom = () => {
             height={"100%"}
             src={imageSrc}
             preview={false}
+            alt=""
           />
           <div className="opacity-0 h-[calc(100%-16px)] w-[calc(100%-16px)] inset-2 group-hover:opacity-100 absolute bg-[#00000073] top-2 z-10 backdrop-blur-0 duration-200 "></div>
           <button
@@ -228,6 +229,7 @@ export const UploadCustom = () => {
                   height={150}
                   preview={false}
                   src={previewImage}
+                  alt=""
                 />
 
                 <Button onClick={() => setPreviewImage("")}>
@@ -244,8 +246,8 @@ export const UploadCustom = () => {
             ) : (
               <>
                 <div className="grid grid-cols-3 gap-2 overflow-x-hidden overflow-y-auto max-h-[300px] w-full">
-                  {map(assetsList?.pages, (page) => (
-                    <>
+                  {map(assetsList?.pages, (page, index) => (
+                    <div key={index}>
                       {map(page?.resources, (asset) => (
                         <div
                           key={asset?.asset_id}
@@ -264,11 +266,12 @@ export const UploadCustom = () => {
                             src={asset?.secure_url}
                             preview={false}
                             className="cursor-pointer p-2"
+                            alt=""
                           />
                           <div className="opacity-0 h-[calc(100%-16px)] w-[calc(100%-16px)] inset-2 group-hover:opacity-100 absolute bg-[#00000073] top-2 z-10 backdrop-blur-0 duration-200 "></div>
                         </div>
                       ))}
-                    </>
+                    </div>
                   ))}
                 </div>
                 <div className="flex justify-center mt-4">

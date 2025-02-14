@@ -49,6 +49,7 @@ export const ShopViews = () => {
                     height={150}
                     src={item?.image}
                     preview={false}
+                    alt=""
                   />
                   <div className="px-4 pb-4">
                     <div className="mb-2 overflow-hidden truncate capitalize font-medium">
@@ -91,6 +92,7 @@ export const ShopViews = () => {
                     <img
                       className="rounded-lg border w-[100px] h-[50px] max-md:w-[75px]"
                       src={itemSelected?.image}
+                      alt=""
                     />
                     <div className="flex justify-between flex-col">
                       <div className="truncate capitalize text-gray-400 max-md:text-[10px] max-[576px]:text-xs">
@@ -183,6 +185,7 @@ export const ShopViews = () => {
             preview={false}
             width={250}
             height={250}
+            alt=""
           />
           <h3 className="font-medium text-xl">
             Scan this QR code to proccess your payment

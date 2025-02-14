@@ -76,7 +76,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
         className="bg-zinc-900"
       >
         <Link href="/" className="cursor-pointer">
-          <img className="w-40 h-30 mx-auto py-3" src={LOGO_HEADER} />
+          <img className="w-40 h-30 mx-auto py-3" src={LOGO_HEADER} alt="" />
         </Link>
         <Menu
           className="bg-zinc-900"

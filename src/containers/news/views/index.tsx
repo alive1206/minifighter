@@ -3,7 +3,6 @@
 import { useGetPosts } from "@/hooks";
 import { MainLayout } from "@/layouts";
 import { css } from "@emotion/css";
-import { COMING_SOON } from "@public/index";
 import { Button, Image, Modal, Pagination } from "antd";
 import { map } from "lodash";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -45,6 +44,7 @@ export const NewsViews = () => {
                   height={150}
                   src={post?.image}
                   preview={false}
+                  alt=""
                 />
                 <div className="truncate text-center text-white px-4 font-medium pb-2">
                   {post?.title}

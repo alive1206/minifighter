@@ -2,7 +2,7 @@
 
 import { useCurrentUser, useCurrentUserStatus, useLogout } from "@/hooks";
 import { UserRole } from "@prisma/client";
-import { App, Button, Result, Spin } from "antd";
+import { App, Spin } from "antd";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 

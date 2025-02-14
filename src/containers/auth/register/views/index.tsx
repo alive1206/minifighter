@@ -2,7 +2,6 @@
 
 import { useCreateUserMutation, useCurrentUser } from "@/hooks";
 import { MainLayout } from "@/layouts";
-import { css } from "@emotion/css";
 import { Button, Form, Input, Space, Spin } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

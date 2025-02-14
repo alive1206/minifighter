@@ -1,8 +1,7 @@
 "use client";
 
 import { AdminLayout } from "@/layouts";
-import Chart from "../components/chart";
-import { DatePicker, Image } from "antd";
+import { Image } from "antd";
 import { COMING_SOON } from "@public/index";
 
 export const Insights = () => {

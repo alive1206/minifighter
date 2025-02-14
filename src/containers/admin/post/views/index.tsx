@@ -123,29 +123,26 @@ export const AdminPost = () => {
     });
   }, [postForm, onCreate]);
 
-  const handleUpdate = useCallback(
-    (id: any) => {
-      postForm.submit();
-      postForm.validateFields().then(async (values) => {
-        const data = {
-          title: values?.title,
-          content: editorRef.current.getContent(),
-          image: values?.image,
-        };
-        onUpdate(
-          { id: values?.id, data },
-          {
-            onSuccess: () => {
-              queryClient.invalidateQueries({ queryKey: ["GET_POSTS_LIST"] });
-              setOpen(false);
-              postForm.resetFields();
-            },
-          }
-        );
-      });
-    },
-    [postForm, onUpdate]
-  );
+  const handleUpdate = useCallback(() => {
+    postForm.submit();
+    postForm.validateFields().then(async (values) => {
+      const data = {
+        title: values?.title,
+        content: editorRef.current.getContent(),
+        image: values?.image,
+      };
+      onUpdate(
+        { id: values?.id, data },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["GET_POSTS_LIST"] });
+            setOpen(false);
+            postForm.resetFields();
+          },
+        }
+      );
+    });
+  }, [postForm, onUpdate]);
 
   const handleDelete = useCallback(
     (id: any) => {

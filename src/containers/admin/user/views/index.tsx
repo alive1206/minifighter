@@ -9,7 +9,6 @@ import {
 import { AdminLayout } from "@/layouts";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  App,
   Button,
   Col,
   Drawer,
@@ -129,29 +128,26 @@ export const AdminUser = () => {
     });
   }, [userForm, onCreate]);
 
-  const handleUpdate = useCallback(
-    (id: any) => {
-      userForm.submit();
-      userForm.validateFields().then(async (values) => {
-        const data = {
-          username: values?.username,
-          password: values?.password,
-          role: values?.role,
-        };
-        onUpdate(
-          { id: values?.id, data },
-          {
-            onSuccess: () => {
-              queryClient.invalidateQueries({ queryKey: ["GET_USERS_LIST"] });
-              setOpen(false);
-              userForm.resetFields();
-            },
-          }
-        );
-      });
-    },
-    [userForm, onUpdate]
-  );
+  const handleUpdate = useCallback(() => {
+    userForm.submit();
+    userForm.validateFields().then(async (values) => {
+      const data = {
+        username: values?.username,
+        password: values?.password,
+        role: values?.role,
+      };
+      onUpdate(
+        { id: values?.id, data },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["GET_USERS_LIST"] });
+            setOpen(false);
+            userForm.resetFields();
+          },
+        }
+      );
+    });
+  }, [userForm, onUpdate]);
 
   const handleDelete = useCallback(
     (id: any) => {

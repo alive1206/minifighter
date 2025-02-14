@@ -1,5 +1,5 @@
 import { useApi } from "@/hooks";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 type Arg = {
