@@ -20,7 +20,7 @@ async function handleGetPosts(req: NextApiRequest, res: NextApiResponse) {
     const { page = "1", title = "" } = req.query;
 
     const currentPage = Math.max(1, parseInt(page as string, 10));
-    const pageSize = 6;
+    const pageSize = 10;
     const skip = (currentPage - 1) * pageSize;
 
     const posts = await prisma.post.findMany({
